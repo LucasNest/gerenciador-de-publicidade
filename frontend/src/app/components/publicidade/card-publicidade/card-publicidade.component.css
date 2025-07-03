@@ -1,0 +1,89 @@
+.card-content {
+  display: flex;
+  width: 100%;
+  max-height: 128px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .card-header {
+    display: flex;
+    width: 100%;
+    max-height: 56px;
+    align-items: center;
+    gap: 20px;
+
+    .img-container {
+      max-height: 56px;
+      max-width: 56px;
+      border-radius: 8px;
+      background-color: #d9d9d9;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 80%;
+      height: 80%;
+      text-align: start;
+
+      h1 {
+        text-align: start;
+        font-family: Open Sans;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: 0px;
+      }
+
+      p {
+        text-align: start;
+        font-family: Open Sans;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: 0%;
+      }
+
+      h1,
+      p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .header-action {
+      display: flex;
+      margin-left: auto;
+      gap: 0.5rem;
+    }
+  }
+
+  .card-details {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      p {
+        font-family: Open Sans;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+::ng-deep .custom-menu-position {
+  position: absolute !important;
+  transform: translate(-10%, -30%) !important;
+}

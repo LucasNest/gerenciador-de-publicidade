@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="header">
+    <img src="../../../assets/logoEmbras.png" alt="" />
+    <p-avatar label="L" styleClass="mr-2" shape="circle"></p-avatar>
+  </div>
+  <div class="body">
+    <span class="titles">
+      <h1>Gerenciamento de Publicidade</h1>
+      <p-button
+        label="Nova publicidade"
+        icon="pi pi-plus-circle"
+        (onClick)="openModal()"
+      ></p-button>
+    </span>
+    <div class="search">
+      <!-- <p-multiSelect
+        class="teste"
+        (onChange)="filterStates()"
+        [(ngModel)]="filterStatesValue"
+        [style]="{ minWidth: '500px' }"
+        [options]="states"
+        [autofocusFilter]="false"
+        defaultLabel="Tipo"
+        [filter]="false"
+        [showToggleAll]="false"
+        [showHeader]="false"
+        [selectionLimit]="2"
+        optionLabel="name"
+      ></p-multiSelect> -->
+
+      <span style="width: 40%">
+        <p-multiSelect
+          class="teste"
+          (onChange)="filterStates()"
+          [(ngModel)]="filterStatesValue"
+          [style]="{'minWidth':'100%'}"
+          [options]="states"
+          [autofocusFilter]="false"
+          defaultLabel="Tipo"
+          [filter]="false"
+          [showToggleAll]="false"
+          [showHeader]="false"
+          [selectionLimit]="2"
+          optionLabel="name"
+        ></p-multiSelect>
+      </span>
+
+      <input type="text" pInputText [style]="{ minWidth: '70%' }" />
+    </div>
+
+    <app-card-publicidade></app-card-publicidade>
+    <h2>OUTRAS PUBLICIDADES</h2>
+    <div class="group-cards"></div>
+  </div>
+</div>
+<app-modal-publicidade></app-modal-publicidade>

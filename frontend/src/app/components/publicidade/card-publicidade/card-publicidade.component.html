@@ -1,0 +1,47 @@
+<p-card>
+  <div class="card-content">
+    <div class="card-header">
+      <p-avatar size="large">
+        <p-image src="../../../../assets/testeMock.png" alt="Image"></p-image>
+      </p-avatar>
+      <div class="header-content">
+        <h1>Convite Especial para Prefeitos(as) e Secretários(as)</h1>
+        <p>
+          De 10 a 20 de julho de 2025, o Festival de Inverno Rio retorna para
+          transformar a cidade em um grande palco de cultura, música e arte.
+          Serão dias repletos de shows imperdíveis, apresentações de artistas
+          consagrados e novas promessas, gastronomia de primeira e uma atmosfera
+          única que só o Rio sabe oferecer.
+        </p>
+      </div>
+      <div class="header-action">
+        <p-chip
+          *ngIf="true"
+          label="Publicação Atual"
+          [style]="{ 'background-color': '#caf1d8', 'color': '#136c34', }"
+        >
+        </p-chip>
+
+        <p-menu
+          #menu
+          [model]="items"
+          [popup]="true"
+          appendTo="body"
+          styleClass="custom-menu-position"
+        ></p-menu>
+        <i class="pi pi-ellipsis-v" (click)="menu.toggle($event)"></i>
+      </div>
+    </div>
+
+    <div class="card-details">
+      <span>
+        <p-chip [label]="teste" [style]="{ color: '#343a40' }"></p-chip>
+      </span>
+
+      <span class="date">
+        <i class="pi pi-calendar"></i>
+        <p>Ativo até 30/07/2025</p>
+      </span>
+    </div>
+  </div>
+</p-card>

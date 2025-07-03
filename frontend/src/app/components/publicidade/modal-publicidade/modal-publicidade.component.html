@@ -1,0 +1,115 @@
+<p-dialog
+  header="Nova Publicidade"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+  [modal]="true"
+  [draggable]="false"
+  [closeOnEscape]="true"
+  [dismissableMask]="true"
+>
+  <div class="modal">
+    <div class="multiselect-wrapper">
+      <span>Estados Contemplados *</span>
+      <p-multiSelect
+        (onChange)="filterType()"
+        [(ngModel)]="filterTypeValue"
+        [style]="{ minWidth: '100%' }"
+        [options]="types"
+        [autofocusFilter]="false"
+        [filter]="false"
+        [showToggleAll]="false"
+        [showHeader]="false"
+        [selectionLimit]="2"
+        optionLabel="name"
+      ></p-multiSelect>
+    </div>
+    <div class="input-wrapper">
+      <span>Titulo *</span>
+      <input type="text" pInputText [style]="{ Width: '100%' }" />
+    </div>
+    <div class="text-wrapper">
+      <span>Descrição *</span>
+      <textarea
+        rows="5"
+        cols="30"
+        pInputTextarea
+        [(ngModel)]="teste"
+      ></textarea>
+    </div>
+    <div class="half-input-wrapper">
+      <div class="input-wrapper">
+        <span>Descrição *</span>
+        <input type="text" pInputText [style]="{ Width: '100%' }" />
+      </div>
+      <div class="input-wrapper">
+        <span>Descrição *</span>
+        <input type="text" pInputText [style]="{ Width: '100%' }" />
+      </div>
+    </div>
+    <div class="half-date-wrapper">
+      <div class="date-wrapper">
+        <span>Data de publicação *</span>
+        <p-calendar
+          [showIcon]="true"
+          [style]="{ minWidth: '100%' }"
+        ></p-calendar>
+      </div>
+      <div class="date-wrapper">
+        <span>Data final da publicação *</span>
+        <p-calendar
+          [showIcon]="true"
+          [style]="{ minWidth: '100%' }"
+        ></p-calendar>
+      </div>
+    </div>
+    <div class="img-wrapper upload-file">
+      <span class="text-wrapper">imagem da publicidade</span>
+      <ng-container *ngIf="!file">
+        <div class="img-input-content" (click)="fileInput.click()">
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            accept="image/*"
+            style="display: none"
+          />
+          <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+          <span class="text"
+            >Selecione o arquivo ou arraste aqui para adicioná-lo.</span
+          >
+          <p-button
+            icon="pi pi-paperclip"
+            styleClass="p-button-outlined"
+            label="Confirmar"
+          ></p-button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="file">
+        <div class="img-content">
+          <div class="img">
+            <p-avatar size="large">
+              <p-image [src]="imageUrl || 'assets/testeMock.png'" alt="Imagem"></p-image>
+            </p-avatar>
+            <span class="img-txt"> {{fileName}} </span>
+          </div>
+
+          <i class="pi pi-trash" [style]="{ color: 'red' }" (click)="removeFile()"></i>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="btn-colection">
+      <p-button
+        icon="pi pi-times"
+        label="Cancelar"
+        styleClass="p-button-outlined p-button-secondary"
+      ></p-button>
+      <p-button icon="pi pi-check" label="Confirmar"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
