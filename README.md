@@ -1,4 +1,4 @@
-# gerenciador-de-publicidade
+# Gerenciador-de-Publicidade
 
 Projeto de CRUD utilizando Angular e Laravel
 
