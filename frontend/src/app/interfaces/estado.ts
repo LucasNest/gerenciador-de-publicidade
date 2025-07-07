@@ -5,7 +5,7 @@ export interface Estado {
 }
 
 export interface EstadoResponse {
-  data: Estado[];
+  estados: Estado[];
 }
 
 export interface EstadoCadastro {

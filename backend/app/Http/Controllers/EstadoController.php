@@ -16,7 +16,9 @@ class EstadoController extends Controller
     {
         $estado = CadEstado::all();
 
-        return EstadoResource::collection($estado);
+        return response()->json([
+            'estados' => EstadoResource::collection($estado),
+        ]);
     }
 
     /**

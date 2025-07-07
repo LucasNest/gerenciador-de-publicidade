@@ -62,7 +62,7 @@ export class PublicidadeComponent implements OnInit {
 
     const loadSub = forkJoin([estados$, publicidades$]).subscribe({
       next: ([estados, publicidades]) => {
-        this.estados = estados.data;
+        this.estados = estados.estados;
         this.publicidades = publicidades.publicidades;
         this.publicidadeAtiva = publicidades.publicidade_ativas[0];
       },

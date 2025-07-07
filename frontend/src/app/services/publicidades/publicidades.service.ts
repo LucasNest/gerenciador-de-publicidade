@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EstadoCadastro } from 'src/app/interfaces/estado';
-import { EstadoResponse, PublicidadeCadastro } from 'src/app/interfaces/publicidade';
+import { PublicidadeResponse, PublicidadeCadastro } from 'src/app/interfaces/publicidade';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class PublicidadesService {
       });
     }
     
-    return this.http.get<EstadoResponse>(`${environment.urlAPi}/publicidade`, { params })
+    return this.http.get<PublicidadeResponse>(`${environment.urlAPi}/publicidade`, { params })
   }
 
   postPublicidade(publicidade: PublicidadeCadastro){

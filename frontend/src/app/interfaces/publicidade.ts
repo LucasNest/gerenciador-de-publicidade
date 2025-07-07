@@ -7,24 +7,23 @@ export interface Publicidade {
   imagem: string;
   botao_link: string;
   titulo_botao_link: string;
-  dt_inicio: string;
-  dt_fim: string;
+  dt_inicio: Date;
+  dt_fim: Date;
   estados: Estado[];
 }
 
-export interface EstadoResponse {
+export interface PublicidadeResponse {
   publicidades: Publicidade[];
   publicidade_ativas: Publicidade[];
 }
 
 export interface PublicidadeCadastro {
-  id: number;
   titulo: string;
   descricao: string;
-  imagem: File;
+  imagem: string;
   botao_link: string;
   titulo_botao_link: string;
-  dt_inicio: string;
-  dt_fim: string;
+  dt_inicio: Date;
+  dt_fim: Date;
   estados: number[];
 }
