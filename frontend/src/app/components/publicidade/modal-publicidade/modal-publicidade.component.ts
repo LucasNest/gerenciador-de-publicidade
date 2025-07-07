@@ -282,8 +282,4 @@ export class ModalPublicidadeComponent implements OnInit {
   closeModal() {
     this.visible = false;
   }
-
-  get disableFimDate(): boolean {
-    return !this.dt_inicio.value;
-  }
 }

@@ -98,7 +98,3 @@ body {
 .p-icon-wrapper {
   color: #6c757d !important;
 }
-
-.p-fileupload .p-fileupload-buttonbar {
-  display: none !important;
-}
