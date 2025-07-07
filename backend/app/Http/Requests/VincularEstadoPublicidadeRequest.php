@@ -23,7 +23,7 @@ class VincularEstadoPublicidadeRequest extends FormRequest
     {
         return [
             'estado_ids' => 'required|array',
-            'estado_ids.*' => 'integer|exists:estados,id',
+            'estado_ids.*' => 'integer|exists:cad_estados,id',
         ];
     }
 }

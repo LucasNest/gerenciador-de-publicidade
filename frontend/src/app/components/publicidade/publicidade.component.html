@@ -13,44 +13,58 @@
       ></p-button>
     </span>
     <div class="search">
-      <!-- <p-multiSelect
-        class="teste"
-        (onChange)="filterStates()"
-        [(ngModel)]="filterStatesValue"
-        [style]="{ minWidth: '500px' }"
-        [options]="states"
-        [autofocusFilter]="false"
-        defaultLabel="Tipo"
-        [filter]="false"
-        [showToggleAll]="false"
-        [showHeader]="false"
-        [selectionLimit]="2"
-        optionLabel="name"
-      ></p-multiSelect> -->
-
       <span style="width: 40%">
         <p-multiSelect
-          class="teste"
-          (onChange)="filterStates()"
-          [(ngModel)]="filterStatesValue"
-          [style]="{'minWidth':'100%'}"
-          [options]="states"
+          [formControl]="multiSelectEstados"
+          [style]="{ minWidth: '100%' }"
+          [options]="estados"
           [autofocusFilter]="false"
-          defaultLabel="Tipo"
+          defaultLabel="Estados"
           [filter]="false"
           [showToggleAll]="false"
           [showHeader]="false"
-          [selectionLimit]="2"
-          optionLabel="name"
+          optionLabel="descricao"
+          optionValue="sigla"
         ></p-multiSelect>
       </span>
 
-      <input type="text" pInputText [style]="{ minWidth: '70%' }" />
+      <span class="p-input-icon-right" style="width: 60%">
+        <i class="pi pi-search"></i>
+        <input
+          [formControl]="inputPublicidade"
+          placeholder="Procure uma Publicação..."
+          type="text"
+          pInputText
+          [style]="{ minWidth: '100%' }"
+          icon="pi pi-search"
+        />
+      </span>
     </div>
 
-    <app-card-publicidade></app-card-publicidade>
-    <h2>OUTRAS PUBLICIDADES</h2>
+    <app-card-publicidade
+      *ngIf="publicidadeAtiva"
+      [publicidade]="publicidadeAtiva"
+      [publicidadeAtual]="true"
+      (onEditar)="openModal($event)"
+      (onEncerrar)="encerrar($event)"
+    >
+    </app-card-publicidade>
+    <h2 *ngIf="publicidadeAtiva">OUTRAS PUBLICIDADES</h2>
+    <ng-container *ngFor="let publicidade of publicidades">
+      <app-card-publicidade
+        [publicidade]="publicidade"
+        (onEditar)="openModal($event)"
+        (onEncerrar)="encerrar($event)"
+      ></app-card-publicidade>
+    </ng-container>
     <div class="group-cards"></div>
   </div>
+  <p-toast></p-toast>
+  <app-modal-publicidade
+    [estados]="estados"
+    (onSavePublicidade)="loadPage()"
+  ></app-modal-publicidade>
+  <div class="loader" *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
 </div>
-<app-modal-publicidade></app-modal-publicidade>

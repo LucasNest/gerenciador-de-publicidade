@@ -1,5 +1,5 @@
 <p-dialog
-  header="Nova Publicidade"
+  [header]="title"
   [(visible)]="visible"
   [style]="{ width: '60vw' }"
   [modal]="true"
@@ -7,25 +7,50 @@
   [closeOnEscape]="true"
   [dismissableMask]="true"
 >
-  <div class="modal">
+  <p-progressBar
+    *ngIf="isLoading"
+    mode="indeterminate"
+    [style]="{ height: '6px', width: '100%' }"
+  ></p-progressBar>
+  <div class="modal" [formGroup]="publicidadeForm">
     <div class="multiselect-wrapper">
       <span>Estados Contemplados *</span>
       <p-multiSelect
-        (onChange)="filterType()"
-        [(ngModel)]="filterTypeValue"
         [style]="{ minWidth: '100%' }"
-        [options]="types"
+        [formControl]="multiSelectEstados"
+        [options]="estados"
         [autofocusFilter]="false"
+        defaultLabel="Estados"
         [filter]="false"
         [showToggleAll]="false"
         [showHeader]="false"
-        [selectionLimit]="2"
-        optionLabel="name"
+        optionLabel="descricao"
+        optionValue="id"
       ></p-multiSelect>
+      <small
+        *ngIf="multiSelectEstados.invalid && multiSelectEstados.touched"
+        class="p-error"
+      >
+        Selecione pelo menos um estado
+      </small>
     </div>
     <div class="input-wrapper">
       <span>Titulo *</span>
-      <input type="text" pInputText [style]="{ Width: '100%' }" />
+      <input
+        type="text"
+        pInputText
+        [style]="{ Width: '100%' }"
+        formControlName="titulo"
+      />
+      <small
+        *ngIf="
+          publicidadeForm.get('titulo')?.invalid &&
+          publicidadeForm.get('titulo')?.touched
+        "
+        class="p-error"
+      >
+        Título é obrigatório
+      </small>
     </div>
     <div class="text-wrapper">
       <span>Descrição *</span>
@@ -33,17 +58,56 @@
         rows="5"
         cols="30"
         pInputTextarea
-        [(ngModel)]="teste"
+        formControlName="descricao"
       ></textarea>
+      <small
+        *ngIf="
+          publicidadeForm.get('descricao')?.invalid &&
+          publicidadeForm.get('descricao')?.touched
+        "
+        class="p-error"
+      >
+        Descrição é obrigatória
+      </small>
     </div>
     <div class="half-input-wrapper">
       <div class="input-wrapper">
-        <span>Descrição *</span>
-        <input type="text" pInputText [style]="{ Width: '100%' }" />
+        <span>Título do botão *</span>
+        <input
+          type="text"
+          pInputText
+          [style]="{ Width: '100%' }"
+          formControlName="titulo_botao_link"
+          placeholder="Promoção..."
+        />
+        <small
+          *ngIf="
+            publicidadeForm.get('titulo_botao_link')?.invalid &&
+            publicidadeForm.get('titulo_botao_link')?.touched
+          "
+          class="p-error"
+        >
+          Título do botão é obrigatório
+        </small>
       </div>
       <div class="input-wrapper">
-        <span>Descrição *</span>
-        <input type="text" pInputText [style]="{ Width: '100%' }" />
+        <span>Link do botão *</span>
+        <input
+          type="text"
+          pInputText
+          [style]="{ Width: '100%' }"
+          formControlName="botao_link"
+          placeholder="https://www.exemplo.com/promocao"
+        />
+        <small
+          *ngIf="
+            publicidadeForm.get('botao_link')?.invalid &&
+            publicidadeForm.get('botao_link')?.touched
+          "
+          class="p-error"
+        >
+          Link do botão é obrigatório
+        </small>
       </div>
     </div>
     <div class="half-date-wrapper">
@@ -52,27 +116,43 @@
         <p-calendar
           [showIcon]="true"
           [style]="{ minWidth: '100%' }"
+          [minDate]="minDate"
+          dataType="date"
+          dateFormat="dd/mm/yy"
+          [formControl]="dt_inicio"
         ></p-calendar>
+        <small *ngIf="dt_inicio.invalid && dt_inicio.touched" class="p-error">
+          Data de início é obrigatória
+        </small>
       </div>
       <div class="date-wrapper">
         <span>Data final da publicação *</span>
         <p-calendar
           [showIcon]="true"
           [style]="{ minWidth: '100%' }"
+          dataType="date"
+          dateFormat="dd/mm/yy"
+          [formControl]="dt_fim"
+          [minDate]="dt_inicio.value || minDate"
         ></p-calendar>
+        <small *ngIf="dt_fim.invalid && dt_fim.touched" class="p-error">
+          Data final é obrigatória
+        </small>
       </div>
     </div>
     <div class="img-wrapper upload-file">
       <span class="text-wrapper">imagem da publicidade</span>
-      <ng-container *ngIf="!file">
-        <div class="img-input-content" (click)="fileInput.click()">
+      <ng-container *ngIf="!imageUrl">
+        <div
+          class="img-input-content"
+          (click)="fileInput.click()"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event)"
+        >
           <input
             type="file"
             #fileInput
             (change)="onFileSelected($event)"
-            (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
-            (drop)="onDrop($event)"
             accept="image/*"
             style="display: none"
           />
@@ -86,21 +166,33 @@
             label="Confirmar"
           ></p-button>
         </div>
+        <small *ngIf="imageError && !imageUrl" class="p-error">
+          Imagem é obrigatória
+        </small>
       </ng-container>
-      <ng-container *ngIf="file">
+      <ng-container *ngIf="imageUrl">
         <div class="img-content">
           <div class="img">
             <p-avatar size="large">
-              <p-image [src]="imageUrl || 'assets/testeMock.png'" alt="Imagem"></p-image>
+              <p-image [src]="imageUrl | imagePath" alt="Imagem"></p-image>
             </p-avatar>
-            <span class="img-txt"> {{fileName}} </span>
+            <span class="img-txt"> {{ imageName }} </span>
           </div>
 
-          <i class="pi pi-trash" [style]="{ color: 'red' }" (click)="removeFile()"></i>
+          <i
+            class="pi pi-trash"
+            [style]="{ color: 'red' }"
+            (click)="removeFile()"
+          ></i>
         </div>
       </ng-container>
     </div>
   </div>
+  <p-progressBar
+    *ngIf="isLoading"
+    mode="indeterminate"
+    [style]="{ height: '6px', width: '100%' }"
+  ></p-progressBar>
 
   <ng-template pTemplate="footer">
     <div class="btn-colection">
@@ -108,8 +200,14 @@
         icon="pi pi-times"
         label="Cancelar"
         styleClass="p-button-outlined p-button-secondary"
+        (onClick)="closeModal()"
       ></p-button>
-      <p-button icon="pi pi-check" label="Confirmar"></p-button>
+      <p-button
+        icon="pi pi-check"
+        label="Confirmar"
+        (onClick)="savePublicidade()"
+        [disabled]="isFormInvalid"
+      ></p-button>
     </div>
   </ng-template>
 </p-dialog>

@@ -9,7 +9,7 @@ class CadPublicidade extends Model
 {
     // use HasFactor
 
-    protected $table = 'cad_publicidade';
+    protected $table = 'cad_publicidades';
 
     public $timestamps = false;
 
@@ -24,7 +24,6 @@ class CadPublicidade extends Model
     ];
 
     protected $casts = [
-       'imagen' => 'binary',
        'dt_inicio' => 'date',
        'dt_fim' => 'date',
     ];

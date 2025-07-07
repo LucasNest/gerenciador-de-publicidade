@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CadEstado;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEstadoRequest;
+use App\Http\Resources\EstadoResource;
 
 class EstadoController extends Controller
 {
@@ -13,8 +14,9 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        $cadEstado = CadEstado::all();
-        return response()->json($cadEstado);
+        $estado = CadEstado::all();
+
+        return EstadoResource::collection($estado);
     }
 
     /**
@@ -24,35 +26,40 @@ class EstadoController extends Controller
     {
         $data = $request->validated();
 
-        $cadEstado = CadEstado::create($data->all());
-        return response()->json($cadEstado, 201);
+        $estado = CadEstado::create($data);
+        return response()->json([
+            'estado' => new EstadoResource($estado->fresh()),
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CadEstado $cadEstado)
+    public function show(CadEstado $estado)
     {
-        return response()->json($cadEstado);
+        return EstadoResource::collection($estado);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreEstadoRequest $request, CadEstado $cadEstado)
+    public function update(StoreEstadoRequest $request, CadEstado $estado)
     {
         $data = $request->validated();
 
-        $cadEstado = CadEstado::update($data->all());
-        return response()->json($cadEstado, 201);
+        $estado->update($data);
+        return response()->json([
+            'message' => 'Estado atualizado com sucesso.',
+            'estado' => new EstadoResource($estado->fresh()),
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CadEstado $cadEstado)
+    public function destroy(CadEstado $estado)
     {
-        $cadEstado->delete();
+        $estado->delete();
         return response()->json(null, 204);
     }
 }

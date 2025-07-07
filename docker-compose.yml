@@ -1,0 +1,65 @@
+services:
+
+  backend:
+    image: webdevops/php-apache-dev:8.2-alpine
+    container_name: backend
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - app-net
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: laravel
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    command: >
+      sh -c "apk add --no-cache postgresql-dev &&
+            docker-php-ext-install pdo_pgsql &&
+            composer install && 
+            php artisan migrate && 
+            php artisan db:seed && 
+            php artisan serve --host=0.0.0.0 --port=8000"
+
+  frontend:
+    image: node:18
+    container_name: frontend
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "4200:4200"
+    command: >
+      sh -c "npm install && npm run start -- --host 0.0.0.0"
+    networks:
+      - app-net
+
+  db:
+    image: postgres:15
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "1234:5432"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  pgdata:

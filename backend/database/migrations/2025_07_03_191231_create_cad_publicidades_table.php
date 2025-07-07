@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table ->string('titulo');
             $table ->text('descricao');
-            $table ->binary('imagen');
+            $table ->text('imagem');
             $table ->string('botao_link');
             $table ->string('titulo_botao_link');
             $table ->date('dt_inicio');

@@ -9,7 +9,7 @@ class CadEstado extends Model
 {
     // use HasFactory;
 
-    protected $table = 'cad_estado';
+    protected $table = 'cad_estados';
 
     public $timestamps = false;
 

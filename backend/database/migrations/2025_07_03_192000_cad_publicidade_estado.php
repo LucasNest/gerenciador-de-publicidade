@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cad_publicidade_estado', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_publicidade')->constrained('cad_publicidade')->onDelete('cascade');
-            $table->foreignId('id_estado')->constrained('cad_estado')->onDelete('cascade');
+            $table->foreignId('id_publicidade')->constrained('cad_publicidades')->onDelete('cascade');
+            $table->foreignId('id_estado')->constrained('cad_estados')->onDelete('cascade');
 
             $table->unique(['id_publicidade', 'id_estado']);
         });

@@ -22,8 +22,8 @@ class StoreEstadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'descricao' => 'required|string|max:255|unique:cad_estado,descricao',
-            'sigla' => 'required|string|min:2|max:2|unique:cad_estado,sigla',
+            'descricao' => 'required|string|max:255|unique:cad_estados,descricao',
+            'sigla' => 'required|string|min:2|max:2|unique:cad_estados,sigla',
         ];
     }
 }

@@ -10,8 +10,8 @@ class ValidarPeriodoPublicidade
     public function execute(string $dataInicio, string $dataFim, ?int $ignoreId = null): void
     {
         $query = CadPublicidade::where(function ($query) use ($dataInicio, $dataFim) {
-            $query->where('data_inicio', '<=', $dataFim)
-                  ->where('data_fim', '>=', $dataInicio);
+            $query->where('dt_inicio', '<=', $dataFim)
+                  ->where('dt_fim', '>=', $dataInicio);
         });
 
         if ($ignoreId) {
@@ -20,7 +20,7 @@ class ValidarPeriodoPublicidade
 
         if ($query->exists()) {
             throw ValidationException::withMessages([
-                'periodo' => 'Já existe uma publicidade ativa nesse período.'
+                'periodo' => 'Já existe uma publicidade ativa nesse período. Selecione outra data.',
             ]);
         }
     }

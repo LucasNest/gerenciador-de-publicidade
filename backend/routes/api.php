@@ -18,6 +18,8 @@ use App\Http\controllers\EstadoController;
 
 Route::apiResource('publicidade', PublicidadeController::class);
 
-Route::apiResource('estado', PublicidadeController::class);
+Route::apiResource('estado', EstadoController::class);
 
-Route::post('/publicidades/{id}/estados', [PublicidadeController::class, 'vincularEstados']);
+Route::post('/publicidade', [PublicidadeController::class, 'store']);
+
+Route::post('/publicidades/{publicidade}/estados', [PublicidadeController::class, 'vincularEstados']);
